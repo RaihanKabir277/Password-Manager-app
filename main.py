@@ -1,6 +1,34 @@
 # print("Code will starts here....")
 
 from tkinter import *
+from tkinter import messagebox
+
+# ---------Save into the file -------------
+def save():
+    website = website_entry.get()
+    email = email_entry.get()
+    password = password_entry.get()
+
+    if len(website) or len(password) < 3:
+        messagebox.showinfo(title="Oops",message="Please do not Leave any fields empty or less then 3 character")
+
+    else:
+        is_ok = messagebox.askokcancel(title="Website", message=f"There are the details entered: \nEmail: {email}\nPassword: {password}\nIs it ok to save?")
+
+        if is_ok:
+
+            with open("data.txt", "a") as file:
+                file.write(f"{website} | {email} | {password}\n")
+                website_entry.delete(0, END)
+                password_entry.delete(0, END)
+                # email_entry.delete(0,4)
+                words = email.split("@")
+                if len(words) > 1:
+                    new_text = " ".join(words[1:])
+                else:
+                    new_text = " "
+                email_entry.delete(0, END)
+                email_entry.insert(0, new_text)
 
 
 # -------UI setup------
@@ -26,8 +54,11 @@ password_label.grid(row=3, column=0)
 
 website_entry = Entry(width=35)
 website_entry.grid(row=1, column=1, columnspan=2)
+website_entry.focus()
+
 email_entry = Entry(width=35)
 email_entry.grid(row=2, column=1, columnspan=2)
+email_entry.insert(0, "name@gmail.com")
 password_entry = Entry(width=21)
 password_entry.grid(row=3, column=1)
 
@@ -35,7 +66,7 @@ password_entry.grid(row=3, column=1)
 
 password_btn = Button(text="Generate Password")
 password_btn.grid(row=3, column=2)
-add_btn = Button(text="ADD", width=30)
+add_btn = Button(text="ADD", width=30, command=save)
 add_btn.grid(row=4, column=1,columnspan=2)
 
 
