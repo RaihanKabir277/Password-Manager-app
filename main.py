@@ -46,27 +46,37 @@ def save():
         # is_ok = messagebox.askokcancel(title="Website", message=f"There are the details entered: \nEmail: {email}\nPassword: {password}\nIs it ok to save?")
 
         # if is_ok:
-        with open("data.json", "r") as file:
-                # file.write(f"{website} | {email} | {password}\n")
+        try:
+            with open("data.json", "r") as file:
                 # Reading old data
                 data = json.load(file) 
-                # updating old data from new data   
-                data.update(new_data)
-
-        with open("data.json", "w") as file:
-                # saving updating data
-                json.dump(data, file, indent=4)   #for write data in json
+                # file.write(f"{website} | {email} | {password}\n")
                 
-                website_entry.delete(0, END)
-                password_entry.delete(0, END)
-                # email_entry.delete(0,4)
-                words = email.split("@")
-                if len(words) > 1:
-                    new_text = " ".join(words[1:])
-                else:
-                    new_text = " "
-                email_entry.delete(0, END)
-                email_entry.insert(0, new_text)
+                
+
+        except FileNotFoundError:
+            with open("data.json", "w") as file:
+                json.dump(new_data, file, indent=4)
+                
+        else:
+            # updating old data from new data   
+            data.update(new_data)
+
+            with open("data.json", "w") as file:
+                    # saving updating data
+                    json.dump(data, file, indent=4)   #for write data in json
+
+        finally:             
+            website_entry.delete(0, END)
+            password_entry.delete(0, END)
+            # email_entry.delete(0,4)
+            words = email.split("@")
+            if len(words) > 1:
+                        new_text = " ".join(words[1:])
+            else:
+                        new_text = " "
+            email_entry.delete(0, END)
+            email_entry.insert(0, new_text)
         
 
 
