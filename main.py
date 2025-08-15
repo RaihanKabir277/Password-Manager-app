@@ -92,6 +92,8 @@ def searching():
             email = data[website]["email"]
             password = data[website]["password"]
             messagebox.showinfo(title=website, message=f"Email: {email}\nPasswors: {password}")
+        else:
+            messagebox.showerror(title="Error", message=f"No details for {website} exists here.")
             
 
 # -------UI setup------
