@@ -80,14 +80,19 @@ def save():
 
 # ---------------- Searching from the file --------------------
 def searching():
-
     website = website_entry.get()
-    with open("data.json") as file:
-        data = json.load(file)
+    try:
+        with open("data.json") as file:
+            data = json.load(file)
+    except:
+        messagebox.showerror(title="Error", message="No data file added like this")
+            
+    else:
         if website in data:
             email = data[website]["email"]
             password = data[website]["password"]
             messagebox.showinfo(title=website, message=f"Email: {email}\nPasswors: {password}")
+            
 
 # -------UI setup------
 
