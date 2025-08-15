@@ -4,6 +4,7 @@ from tkinter import *
 from tkinter import messagebox
 import random
 import pyperclip
+import json
 
 # ----------------Random password Generator -----------
 def generate_password():
@@ -31,17 +32,23 @@ def save():
     website = website_entry.get()
     email = email_entry.get()
     password = password_entry.get()
+    new_data = {
+         website: {
+              "email" : email,
+              "password" : password,
+         }
+    }
 
-    if len(website) or len(password) < 3:
+    if len(website) < 3 or len(password) < 3:
         messagebox.showinfo(title="Oops",message="Please do not Leave any fields empty or less then 3 character")
 
-    else:
-        is_ok = messagebox.askokcancel(title="Website", message=f"There are the details entered: \nEmail: {email}\nPassword: {password}\nIs it ok to save?")
+    else:    
+        # is_ok = messagebox.askokcancel(title="Website", message=f"There are the details entered: \nEmail: {email}\nPassword: {password}\nIs it ok to save?")
 
-        if is_ok:
-
-            with open("data.txt", "a") as file:
-                file.write(f"{website} | {email} | {password}\n")
+        # if is_ok:
+        with open("data.json", "w") as file:
+                # file.write(f"{website} | {email} | {password}\n")
+                json.dump(new_data, file)
                 website_entry.delete(0, END)
                 password_entry.delete(0, END)
                 # email_entry.delete(0,4)
@@ -52,6 +59,7 @@ def save():
                     new_text = " "
                 email_entry.delete(0, END)
                 email_entry.insert(0, new_text)
+        
 
 
 # -------UI setup------
