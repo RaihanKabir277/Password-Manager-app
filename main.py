@@ -77,8 +77,17 @@ def save():
                         new_text = " "
             email_entry.delete(0, END)
             email_entry.insert(0, new_text)
-        
 
+# ---------------- Searching from the file --------------------
+def searching():
+
+    website = website_entry.get()
+    with open("data.json") as file:
+        data = json.load(file)
+        if website in data:
+            email = data[website]["email"]
+            password = data[website]["password"]
+            messagebox.showinfo(title=website, message=f"Email: {email}\nPasswors: {password}")
 
 # -------UI setup------
 
@@ -101,8 +110,8 @@ password_label.grid(row=3, column=0)
 
 # ---------Entries--------------
 
-website_entry = Entry(width=35)
-website_entry.grid(row=1, column=1, columnspan=2)
+website_entry = Entry(width=21)
+website_entry.grid(row=1, column=1)
 website_entry.focus()
 
 email_entry = Entry(width=35)
@@ -112,7 +121,8 @@ password_entry = Entry(width=21)
 password_entry.grid(row=3, column=1)
 
 # ------Buttons-------
-
+search_btn = Button(text="Search",width=13, command=searching)
+search_btn.grid(row=1, column=2)
 password_btn = Button(text="Generate Password", command=generate_password)
 password_btn.grid(row=3, column=2)
 add_btn = Button(text="ADD", width=30, command=save)
